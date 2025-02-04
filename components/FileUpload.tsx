@@ -2,7 +2,6 @@
 
 import { IKImage, ImageKitProvider, IKUpload, IKVideo } from "imagekitio-next";
 import config from "@/lib/config";
-import ImageKit from "imagekit";
 import { useRef, useState } from "react";
 import Image from "next/image";
 import { toast } from "@/hooks/use-toast";
@@ -22,7 +21,7 @@ const authenticator = async () => {
       const errorText = await response.text();
 
       throw new Error(
-        `Request failed with status ${response.status}: ${errorText}`,
+        `Request failed with status ${response.status}: ${errorText}`
       );
     }
 
@@ -56,8 +55,8 @@ const FileUpload = ({
   value,
 }: Props) => {
   const ikUploadRef = useRef(null);
-  const [file, setFile] = useState<{ filePath: string | null }>({
-    filePath: value ?? null,
+  const [file, setFile] = useState<{ filePath: string | undefined }>({
+    filePath: value ?? undefined,
   });
   const [progress, setProgress] = useState(0);
 
@@ -175,7 +174,7 @@ const FileUpload = ({
       {file &&
         (type === "image" ? (
           <IKImage
-            alt={file.filePath}
+            alt={file.filePath || undefined}
             path={file.filePath}
             width={500}
             height={300}
